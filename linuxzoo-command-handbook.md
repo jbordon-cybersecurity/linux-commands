@@ -190,7 +190,7 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 
        
 
-🔥 11️⃣ Firewall & iptables Configuration Commands
+🔥 1️⃣1️⃣ Firewall & iptables Configuration Commands
 
 | Purpose                                              | Command                                                                                                                      |
 | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
