@@ -214,6 +214,8 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 | **View persistent rule set**                         | `iptables-save`                                                                                                              |
 | **Reset firewall (clear all rules & chains)**        | `iptables -F; iptables -X`                                                                                                   |
 
+👤 1️⃣2️⃣ Server Administration & User Management (LinuxZoo Practical)
+
 | **Command / Task**                          | **Description**                                |
 | ------------------------------------------- | ---------------------------------------------- |
 | `cat /etc/passwd`                           | List all user accounts                         |
