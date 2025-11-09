@@ -214,6 +214,36 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 | **View persistent rule set**                         | `iptables-save`                                                                                                              |
 | **Reset firewall (clear all rules & chains)**        | `iptables -F; iptables -X`                                                                                                   |
 
+| **Command / Task**                          | **Description**                                |
+| ------------------------------------------- | ---------------------------------------------- |
+| `cat /etc/passwd`                           | List all user accounts                         |
+| `cat /etc/group`                            | List all groups                                |
+| `id <user>`                                 | Show user and group IDs                        |
+| `sudo useradd -m <user>`                    | Create new user with home directory            |
+| `sudo groupadd <group>`                     | Create new group                               |
+| `sudo usermod -g <group> <user>`            | Change user’s primary group                    |
+| `sudo passwd <user>`                        | Set or reset a user’s password                 |
+| `sudo userdel <user>`                       | Delete user (keep home)                        |
+| `sudo userdel -r <user>`                    | Delete user and home directory                 |
+| `su - <user>`                               | Switch to another user account                 |
+| `ls -ld /home/<user>`                       | Check ownership and permissions of user’s home |
+| `sudo chown -R <user>:<group> /home/<user>` | Fix file ownership recursively                 |
+| `sudo chmod 700 /home/<user>`               | Restrict access to home directory              |
+| `alias`                                     | Show current command aliases                   |
+| `unalias <command>`                         | Remove an alias temporarily                    |
+| `nano ~/.bashrc` / `nano ~/.bash_profile`   | Edit user’s shell config files                 |
+| `sudo tail -n 20 /var/log/secure`           | View authentication logs                       |
+| `sudo lastb`                                | View failed login attempts                     |
+
+
+| **Scenario**                       | **Commands & Purpose**                                                                                                                                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Split into 2 user groups**  | `sudo groupadd hoho`<br>`sudo usermod -g hoho jim`<br>`sudo chown -R jim:hoho /home/jim`<br>✅ Creates new group *hoho*, moves *jim* to it, and updates file ownerships.                                                     |
+| **User bill cannot log in**   | `sudo cat /home/bill/.bashrc`<br>`sudo cat /home/bill/.bash_profile`<br>Remove any `exit`, `logout`, or faulty command line.<br>Test with `su - bill`.<br>✅ Fixes login shell scripts so Bill can log in normally.          |
+| **User ben cannot save work** | `ls -ld /home/ben`<br>`sudo useradd ben` *(if missing)*<br>`sudo groupadd ben` *(if group missing)*<br>`sudo chown -R ben:ben /home/ben`<br>`sudo chmod 700 /home/ben`<br>✅ Restores Ben’s ownership and write permissions. |
+| **User amy cannot run ls**    | `su - amy`<br>`alias` → find `alias ls='echo >/dev/null'`<br>`unalias ls`<br>`sudo nano /home/amy/.bash_profile` → delete that alias line.<br>`source ~/.bashrc`<br>✅ Restores normal *ls* behaviour.                       |
+
+
 
 ### ✨ **Tips**
 - `1` in `/sys/fs/selinux/enforce` = Enforcing  
