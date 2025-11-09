@@ -245,8 +245,6 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 | **User ben cannot save work** | `ls -ld /home/ben`<br>`sudo useradd ben` *(if missing)*<br>`sudo groupadd ben` *(if group missing)*<br>`sudo chown -R ben:ben /home/ben`<br>`sudo chmod 700 /home/ben`<br>✅ Restores Ben’s ownership and write permissions. |
 | **User amy cannot run ls**    | `su - amy`<br>`alias` → find `alias ls='echo >/dev/null'`<br>`unalias ls`<br>`sudo nano /home/amy/.bash_profile` → delete that alias line.<br>`source ~/.bashrc`<br>✅ Restores normal *ls* behaviour.                       |
 
-
-
 ### ✨ **Tips**
 - `1` in `/sys/fs/selinux/enforce` = Enforcing  
 - `0` = Permissive/Disabled  
