@@ -245,14 +245,73 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 | **User ben cannot save work** | `ls -ld /home/ben`<br>`sudo useradd ben` *(if missing)*<br>`sudo groupadd ben` *(if group missing)*<br>`sudo chown -R ben:ben /home/ben`<br>`sudo chmod 700 /home/ben`<br>✅ Restores Ben’s ownership and write permissions. |
 | **User amy cannot run ls**    | `su - amy`<br>`alias` → find `alias ls='echo >/dev/null'`<br>`unalias ls`<br>`sudo nano /home/amy/.bash_profile` → delete that alias line.<br>`source ~/.bashrc`<br>✅ Restores normal *ls* behaviour.                       |
 
-### ✨ **Tips**
-- `1` in `/sys/fs/selinux/enforce` = Enforcing  
-- `0` = Permissive/Disabled  
-- `/etc/services` lists well-known ports and service names  
-- Always remove spaces in port lists for LinuxZoo answers (`514,601,6514`)  
-- Run commands as **root** in LinuxZoo for full access
+🕸️ 1️⃣3️⃣ Apache Web Server & Virtual Host Configuration (LinuxZoo Practical)
+
+| **Command / Task**                                        | **Description / Purpose**                                                                                                   |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `systemctl start httpd` / `systemctl enable httpd`         | Start and enable the Apache service                                                   |
+| `systemctl reload httpd` / `systemctl restart httpd`       | Reload or restart Apache after configuration changes                                  |
+| `systemctl restart iptables`                               | Reset firewall configuration (LinuxZoo requirement)                                   |
+| `vi /etc/httpd/conf.d/userdir.conf`                        | Enable `UserDir public_html` and disable `UserDir disable` to allow per-user web dirs  |
+| `useradd dave` / `su - dave`                               | Create test user and switch into their environment                                   |
+| `mkdir public_html` / `cd public_html`                     | Create web directory inside user’s home                                              |
+| `vi hello.html`                                            | Create a test HTML page with `<h1>HOST</h1>`                                          |
+| `chmod 711 /home/dave /home/dave/public_html`              | Allow directory traversal by others without listing contents                         |
+| `chmod 644 /home/dave/public_html/hello.html`              | Allow Apache to read the test file                                                   |
+| `setsebool -P httpd_read_user_content 1`                   | Allow Apache to read user home content under SELinux                                 |
+| `setsebool -P httpd_enable_homedirs 1`                     | Enable user web directories in SELinux                                               |
+| `restorecon -Rv /home/dave`                                | Fix SELinux contexts for Dave’s files and directories                                |
+| `hostname`                                                 | Display host machine name (e.g., `host-5-161.linuxzoo.net`)                          |
+| `curl http://host-5-161.linuxzoo.net/~dave/hello.html`     | Test local user page works correctly                                                 |
+| `mkdir web vm`                                             | Create subdirectories for virtual host testing                                       |
+| `cp hello.html web/` / `cp hello.html vm/`                 | Copy the test file into both new directories                                         |
+| `sed -i 's/HOST/WEB/' web/hello.html` / `sed -i 's/HOST/VM/' vm/hello.html` | Replace the `<h1>` heading for clarity                                               |
+| `chmod 711 web vm` / `chmod 644 web/hello.html vm/hello.html` | Apply correct access permissions                                                     |
+| `vi /etc/httpd/conf.d/zvirtual.conf`                       | Create a new Apache config for virtual hosts                                         |
+| `httpd -t`                                                 | Check Apache configuration syntax (expect “Syntax OK”)                               |
+| `systemctl reload httpd`                                   | Reload configuration after edits                                                     |
 
 ---
+
+### 🔹 **Example VirtualHost Configuration**
+```apache
+<VirtualHost *:80>
+    ServerAdmin root@localhost
+    DocumentRoot /home/dave/public_html/web
+    ServerName web-5-161.linuxzoo.net
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerAdmin root@localhost
+    DocumentRoot /home/dave/public_html/vm
+    ServerName vm-5-161.linuxzoo.net
+    ServerAlias host-5-161.linuxzoo.net
+
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^host-5-161\.linuxzoo\.net$ [NC]
+    RewriteCond %{REQUEST_URI} !^/~dave
+    RewriteRule (.*) http://vm-5-161.linuxzoo.net/$1 [R=301,L]
+</VirtualHost>
+
+### ✨ **Tips**
+
+- `1` in `/sys/fs/selinux/enforce` → **Enforcing mode**  
+- `0` → **Permissive/Disabled** mode  
+- `/etc/services` lists well-known **ports and service names**  
+- Always remove **spaces** in port lists for LinuxZoo answers (`514,601,6514`)  
+- Run commands as **root** in LinuxZoo for full access  
+- Use `httpd -t` to check **Apache config syntax** before reloading  
+- Always `systemctl reload httpd` (or `restart`) after editing config files  
+- Use `restorecon -Rv <path>` to restore SELinux contexts if access fails  
+- `setsebool -P httpd_read_user_content 1` + `setsebool -P httpd_enable_homedirs 1` fix most Apache/SELinux user-dir errors  
+- Use `curl -I <url>` to verify redirects (HTTP 301 expected for rewrite rules)  
+- Check loaded modules with `httpd -M | grep rewrite` to ensure mod_rewrite is active  
+- Keep hostnames consistent (`host-X-Y`, `web-X-Y`, `vm-X-Y`) when testing in LinuxZoo  
+- Use `systemctl restart iptables` if Apache pages fail to load due to cached rules
+
+---
+
+
 
 **Created by:** *Jose Bordon – BEng Cybersecurity & Forensics (Napier University)*  
 **Practicals covered:** LinuxZoo Networking, SELinux Administration, and System Security  
