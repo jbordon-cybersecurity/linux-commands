@@ -273,7 +273,7 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 
 ---
 
-### 🔹 Example VirtualHost Configuration
+## 🔹 Example VirtualHost Configuration
 
 ```apache
 <VirtualHost *:80>
@@ -293,43 +293,25 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
     RewriteCond %{REQUEST_URI} !^/~dave
     RewriteRule (.*) http://vm-5-161.linuxzoo.net/$1 [R=301,L]
 </VirtualHost>
-✨ Tips
-1 in /sys/fs/selinux/enforce → Enforcing mode
 
-0 → Permissive/Disabled mode
+### ✨ Tips
 
- ✨ Tips
+| **Purpose / Tip** | **Command / Note** |
+|--------------------|--------------------|
+| Check SELinux mode | `1` in `/sys/fs/selinux/enforce` → **Enforcing mode**<br>`0` → **Permissive/Disabled mode** |
+| List well-known ports | `/etc/services` lists known **ports and service names** |
+| Format port lists | Always remove **spaces** in port lists for LinuxZoo answers → `514,601,6514` |
+| Run with privileges | Run commands as **root** in LinuxZoo for full access |
+| Check Apache syntax | `httpd -t` → Validate Apache configuration before reloading |
+| Reload Apache service | `systemctl reload httpd` *(or `systemctl restart httpd`)* after editing config files |
+| Restore SELinux contexts | `restorecon -Rv <path>` → Restore correct SELinux labels if access fails |
+| Fix SELinux user-dir access | `setsebool -P httpd_read_user_content 1` + `setsebool -P httpd_enable_homedirs 1` |
+| Verify rewrite redirects | `curl -I <url>` → Check **HTTP 301** redirect for rewrite rules |
+| Check rewrite module | `httpd -M \| grep rewrite` → Confirm `mod_rewrite` is active |
+| Maintain consistent hostnames | Keep hostnames consistent (`host-X-Y`, `web-X-Y`, `vm-X-Y`) when testing |
+| Reset iptables cache | `systemctl restart iptables` → Fix Apache load issues caused by cached rules |
 
-- `1` in `/sys/fs/selinux/enforce` → **Enforcing mode**  
-- `0` → **Permissive/Disabled** mode  
-- `/etc/services` lists well-known **ports and service names**  
-- Always remove **spaces** in port lists for LinuxZoo answers (`514,601,6514`)  
-- Run commands as **root** in LinuxZoo for full access  
-- Use `httpd -t` to check **Apache config syntax** before reloading  
-- Always `systemctl reload httpd` (or `restart`) after editing config files  
-- Use `restorecon -Rv <path>` to restore SELinux contexts if access fails  
-- `setsebool -P httpd_read_user_content 1` + `setsebool -P httpd_enable_homedirs 1` fix most Apache/SELinux user-dir errors  
-- Use `curl -I <url>` to verify redirects (**HTTP 301** expected for rewrite rules)  
-- Check loaded modules with `httpd -M \| grep rewrite` to ensure `mod_rewrite` is active  
-- Keep hostnames consistent (`host-X-Y`, `web-X-Y`, `vm-X-Y`) when testing in LinuxZoo  
-- Use `systemctl restart iptables` if Apache pages fail to load due to cached rules
-
-Use httpd -t to check Apache config syntax before reloading
-
-Always systemctl reload httpd (or restart) after editing config files
-
-Use restorecon -Rv <path> to restore SELinux contexts if access fails
-
-setsebool -P httpd_read_user_content 1 + setsebool -P httpd_enable_homedirs 1 fix most Apache/SELinux user-dir errors
-
-Use curl -I <url> to verify redirects (HTTP 301 expected for rewrite rules)
-
-Check loaded modules with httpd -M \| grep rewrite to ensure mod_rewrite is active
-
-Keep hostnames consistent (host-X-Y, web-X-Y, vm-X-Y) when testing in LinuxZoo
-
-Use systemctl restart iptables if Apache pages fail to load due to cached rules
-
+---
 
 **Created by:** *Jose Bordon – BEng Cybersecurity & Forensics (Napier University)*  
 **Practicals covered:** LinuxZoo Networking, SELinux Administration, and System Security  
