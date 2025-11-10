@@ -298,6 +298,39 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 ---
 
 
+ ### ✨ Tips
+
+- `1` in `/sys/fs/selinux/enforce` → **Enforcing mode**  
+- `0` → **Permissive/Disabled** mode  
+- `/etc/services` lists well-known **ports and service names**  
+- Always remove **spaces** in port lists for LinuxZoo answers (`514,601,6514`)  
+- Run commands as **root** in LinuxZoo for full access  
+- Use `httpd -t` to check **Apache config syntax** before reloading  
+- Always `systemctl reload httpd` (or `restart`) after editing config files  
+- Use `restorecon -Rv <path>` to restore SELinux contexts if access fails  
+- `setsebool -P httpd_read_user_content 1` + `setsebool -P httpd_enable_homedirs 1` fix most Apache/SELinux user-dir errors  
+- Use `curl -I <url>` to verify redirects (**HTTP 301** expected for rewrite rules)  
+- Check loaded modules with `httpd -M \| grep rewrite` to ensure `mod_rewrite` is active  
+- Keep hostnames consistent (`host-X-Y`, `web-X-Y`, `vm-X-Y`) when testing in LinuxZoo  
+- Use `systemctl restart iptables` if Apache pages fail to load due to cached rules
+
+Use httpd -t to check Apache config syntax before reloading
+
+Always systemctl reload httpd (or restart) after editing config files
+
+Use restorecon -Rv <path> to restore SELinux contexts if access fails
+
+setsebool -P httpd_read_user_content 1 + setsebool -P httpd_enable_homedirs 1 fix most Apache/SELinux user-dir errors
+
+Use curl -I <url> to verify redirects (HTTP 301 expected for rewrite rules)
+
+Check loaded modules with httpd -M \| grep rewrite to ensure mod_rewrite is active
+
+Keep hostnames consistent (host-X-Y, web-X-Y, vm-X-Y) when testing in LinuxZoo
+
+Use systemctl restart iptables if Apache pages fail to load due to cached rules
+
+
 **Created by:** *Jose Bordon – BEng Cybersecurity & Forensics (Napier University)*  
 **Practicals covered:** LinuxZoo Networking, SELinux Administration, and System Security  
 **Maintained on GitHub:** [jbordon-cybersecurity](https://github.com/jbordon-cybersecurity)
