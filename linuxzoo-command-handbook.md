@@ -293,6 +293,8 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
     RewriteRule (.*) http://vm-5-161.linuxzoo.net/$1 [R=301,L]
 </VirtualHost>
 
+---
+
 ### ✨ **Tips**
 
 - `1` in `/sys/fs/selinux/enforce` → **Enforcing mode**  
