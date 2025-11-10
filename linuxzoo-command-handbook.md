@@ -293,8 +293,10 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
     RewriteCond %{REQUEST_URI} !^/~dave
     RewriteRule (.*) http://vm-5-161.linuxzoo.net/$1 [R=301,L]
 </VirtualHost>
-```` ``` ````
+```
+
 ---
+
 
 **Created by:** *Jose Bordon – BEng Cybersecurity & Forensics (Napier University)*  
 **Practicals covered:** LinuxZoo Networking, SELinux Administration, and System Security  
