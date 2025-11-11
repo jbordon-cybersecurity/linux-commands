@@ -4,6 +4,23 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 
 ---
 
+## 📘 Table of Contents
+1. [Basic System Commands](#-1️⃣-basic-system-commands)
+2. [File Permissions & Ownership](#-2️⃣-file-permissions--ownership)
+3. [Networking Basics](#-3️⃣-networking-basics)
+4. [LinuxZoo Networking Practical](#-4️⃣-linuxzoo-networking-practical)
+5. [SELinux Administration Practical](#-5️⃣-selinux-administration-practical)
+6. [Services, Ports & Monitoring](#-6️⃣-services-ports--monitoring)
+7. [Tcpdump & Packet Capture](#-7️⃣-tcpdump--packet-capture)
+8. [Miscellaneous Useful Commands](#-8️⃣-miscellaneous-useful-commands)
+9. [Logs & Diagnostics](#-9️⃣-logs--diagnostics)
+10. [SELinux Usage Commands](#-🔟-selinux-usage-commands)
+11. [Firewall & iptables Configuration](#-1️⃣1️⃣-firewall--iptables-configuration-commands)
+12. [Server Administration & User Management](#-1️⃣2️⃣-server-administration--user-management-linuxzoo-practical)
+13. [Apache Web Server & Virtual Host Configuration](#-1️⃣3️⃣-apache-web-server--virtual-host-configuration-linuxzoo-practical)
+
+---
+
 ## ⚙️ 1️⃣ Basic System Commands
 | **Command**                 | **Description**                        |
 | --------------------------- | -------------------------------------- |
@@ -309,6 +326,25 @@ _A curated list of essential Linux commands used across Napier’s Networking, S
 | Check loaded modules | Check loaded modules with `httpd -M \| grep rewrite` to ensure **mod_rewrite** is active |
 | Keep hostnames consistent | Keep hostnames consistent (`host-X-Y`, `web-X-Y`, `vm-X-Y`) when testing in LinuxZoo |
 | Restart iptables cache | Use `systemctl restart iptables` if Apache pages fail to load due to cached rules |
+
+
+---
+
+## 🧠 Quick Study Commands
+
+| Topic | Command | Purpose |
+|--------|----------|----------|
+| Check Apache config | `httpd -t` | Validate syntax |
+| Restart services | `systemctl restart httpd` | Apply configuration |
+| Restore SELinux context | `restorecon -Rv /var/www/html` | Fix 403 errors |
+| Check DNS zone | `named-checkzone test.local /var/named/test.local.db` | Verify zone syntax |
+| View firewall rules | `iptables -L -n --line-numbers` | Show current rules |
+| Allow HTTP | `iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT` | Open port 80 |
+| Drop HTTP | `iptables -I INPUT 1 -p tcp --dport 80 -j DROP` | Block web access |
+| Test locally | `curl http://localhost` | Verify Apache runs |
+| Test via IP | `curl http://10.0.X.X` | Verify firewall behaviour |
+| View SELinux mode | `getenforce` | Check enforcing/permissive |
+| Test DNS | `dig @localhost www.test.local` | Confirm Bind working |
 
 
 
